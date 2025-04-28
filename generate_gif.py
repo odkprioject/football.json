@@ -93,9 +93,9 @@ ani = FuncAnimation(
     fig,
     draw,
     frames=pts.index,        # 節ごとに更新
-    interval=600,            # 0.6 秒／フレーム ≒ 5 秒で 8 節分
+    interval=1000,            # 0.6 秒／フレーム ≒ 5 秒で 8 節分
     repeat=False
 )
 
-ani.save(OUT_GIF, writer=PillowWriter(fps=8))
+ani.save(OUT_GIF, writer=PillowWriter(fps=1))
 print(f"✅ GIF saved: {OUT_GIF}")
