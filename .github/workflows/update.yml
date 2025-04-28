@@ -1,0 +1,25 @@
+name: update-j1
+on:
+  schedule:
+    - cron: '0 4 * * *'   # JST 13:00 毎日
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Pull upstream (football.json)
+        run: |
+          git pull --rebase https://github.com/openfootball/football.json.git master
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.x' }
+      - run: pip install -r requirements.txt
+      - run: python generate_gif.py
+      - name: Commit & Push results
+        run: |
+          git config user.email "bot@example.com"
+          git config user.name  "action-bot"
+          git add . || true
+          git commit -m "auto update" || echo "No changes"
+          git push
